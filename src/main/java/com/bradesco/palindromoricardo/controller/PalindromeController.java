@@ -23,8 +23,13 @@ public class PalindromeController {
 
     @PostMapping
     @Operation(summary = "Encontra e salva palíndromos na matriz")
-    public ResponseEntity<PalindromeResponse> findAndSavePalindromes(@RequestBody @Valid PalindromeRequest request) {
-
+    public ResponseEntity<Object> findAndSavePalindromes(@RequestBody @Valid PalindromeRequest request) {
+        if (!request.isMatrixValid()) {
+            return ResponseEntity.badRequest().body("Matrix is not valid");
+        }
+        if (!request.isSquareMatrix()) {
+            return ResponseEntity.badRequest().body("Matrix must be square");
+        }
         List<String> palindromes = palindromeService.findAndSavePalindromesInMatrix(request.getMatrix());
         PalindromeResponse response = new PalindromeResponse(palindromes);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
