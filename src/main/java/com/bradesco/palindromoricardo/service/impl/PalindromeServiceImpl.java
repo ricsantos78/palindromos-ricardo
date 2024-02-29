@@ -95,12 +95,11 @@ public class PalindromeServiceImpl implements PalindromeService {
     // Método auxiliar para verificar as direções
     private void checkDirection(char[][] matrix, int row, int col, int dRow, int dCol, Predicate<String> palindromeChecker, List<String> palindromes) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 4; i++) {
-            int newRow = row + i * dRow;
-            int newCol = col + i * dCol;
-            if (isValidPosition(newRow, newCol, matrix)) {
-                sb.append(matrix[newRow][newCol]);
-            }
+
+        int i = 0;
+        while (isValidPosition(row + i * dRow, col + i * dCol, matrix)) {
+            sb.append(matrix[row + i * dRow][col + i * dCol]);
+            i++;
         }
         String candidate = sb.toString();
         if (palindromeChecker.test(candidate)) {
